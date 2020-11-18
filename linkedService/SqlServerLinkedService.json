@@ -1,0 +1,23 @@
+{
+	"name": "SqlServerLinkedService",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Data Source=AMARDEEPPC\\MSSQL_2016;Initial Catalog=AdventureWorksDW2016;User ID=sa",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVaultLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "password-amardeeppc-mssql-2016"
+			}
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntime-ReUse",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
