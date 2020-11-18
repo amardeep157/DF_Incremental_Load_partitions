@@ -15,7 +15,7 @@
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@concat('Ingested_Tables/Fact/',activity('Lookup_Fetch_OldWatermark').output.firstRow.TableName)\n\n",
+					"value": "@concat('Ingested_Tables/Fact','/',activity('Lookup_Fetch_OldWatermark').output.firstRow.TableName)",
 					"type": "Expression"
 				},
 				"fileSystem": "adlsgen2-container"
