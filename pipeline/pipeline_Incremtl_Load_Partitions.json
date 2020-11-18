@@ -87,7 +87,13 @@
 				"outputs": [
 					{
 						"referenceName": "DelimitedTextDataset",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"DynamicTableName": {
+								"value": "@activity('Lookup_Fetch_Last_InsertedDate').output.firstRow.TableName",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			},
