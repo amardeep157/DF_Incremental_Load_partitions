@@ -5,6 +5,11 @@
 			"referenceName": "AzureDataLakeStorage2_LinkedService",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"DynamicTableName": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
@@ -15,7 +20,7 @@
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@concat('Ingested_Tables/Fact','/',activity('Lookup_Fetch_OldWatermark').output.firstRow.TableName)",
+					"value": "@concat('Ingested_Tables/Fact/',dataset().DynamicTableName)",
 					"type": "Expression"
 				},
 				"fileSystem": "adlsgen2-container"
