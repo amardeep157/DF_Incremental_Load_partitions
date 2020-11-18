@@ -1,0 +1,29 @@
+{
+	"name": "DelimitedTextDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage2_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@formatDateTime(utcnow(),'yyyyMMdd')",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "Ingested_Tables/Fact/@activity('Lookup_Fetch_OldWatermark').output.firstRow.TableName",
+					"type": "Expression"
+				},
+				"fileSystem": "adlsgen2-container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
