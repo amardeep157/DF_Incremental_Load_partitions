@@ -198,7 +198,7 @@
 						"Content-Type": "application/json"
 					},
 					"body": {
-						"value": "{\n   \"DataFactoryName\": \"@{pipeline().DataFactory}\",\n   \"PipelineName\": \"@{pipeline().Pipeline}\",\n   \"Subject\": \"“An error has occured in the @{pipeline().Pipeline}-pipeline”\",\n   \"ErrorMessage\": \"The ADF pipeline has crashed! Please check the logs. @activity('Lookup_Fetch_Last_InsertedDate').Error.Message\",\n   \"EmailTo\": \"myemail@outlook.com\"\n}\n\n",
+						"value": "{\n   \"DataFactoryName\": \"@{pipeline().DataFactory}\",\n   \"PipelineName\": \"@{pipeline().Pipeline}\",\n   \"Subject\": \"“An error has occured in the @{pipeline().Pipeline}-pipeline”\",\n   \"ErrorMessage\": \"The ADF pipeline has crashed! Please check the logs. @activity('Lookup_Fetch_Last_InsertedDate').Error.Message\",\n   \"EmailTo\": \"amardeepkohli1988@gmail.com;princelittle123@gmail.com\"\n}\n\n",
 						"type": "Expression"
 					}
 				}
