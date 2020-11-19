@@ -32,6 +32,20 @@
 				}
 			}
 		],
+		"variables": {
+			"EmailTo": {
+				"type": "String",
+				"defaultValue": "DefaultEmail"
+			},
+			"Subject": {
+				"type": "String",
+				"defaultValue": "DefaultSubject"
+			},
+			"ErrorMessage": {
+				"type": "String",
+				"defaultValue": "DefaultErrorMessage"
+			}
+		},
 		"annotations": []
 	}
 }
