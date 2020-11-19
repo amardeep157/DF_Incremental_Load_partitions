@@ -1,0 +1,24 @@
+{
+	"name": "trigger_Incremental_Load",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline_Incremtl_Load_Partitions",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 12,
+				"startTime": "2020-11-19T17:53:00",
+				"timeZone": "Romance Standard Time"
+			}
+		}
+	}
+}
