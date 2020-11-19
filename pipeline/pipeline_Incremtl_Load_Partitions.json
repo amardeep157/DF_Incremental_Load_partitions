@@ -51,7 +51,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "select * from [dbo].[FactInternetSales] where OrderDate >='@{activity('Lookup_Fetch_Last_InsertedDate').output.firstRow.WatermarkValue}'",
+							"value": "select * from [dbo].[FactInternetSales] where OrderDatess >='@{activity('Lookup_Fetch_Last_InsertedDate').output.firstRow.WatermarkValue}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
