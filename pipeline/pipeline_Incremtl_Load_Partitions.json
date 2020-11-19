@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT TableName,WatermarkValue from dbo.watermarktables",
+						"sqlReaderQuery": "SELECT TableName,WatermarkValue from dbo.watermarktable",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -230,6 +230,38 @@
 						},
 						"ErrorMessage": {
 							"value": "The ADF pipeline has crashed! Please check the logs. @{activity('Lookup_Fetch_Last_InsertedDate').Error.Message}",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Execute_Pipeline_CopyData_Error",
+				"description": "we'll call this pipeline from the main pipeline every time we want to send a notification and we pass along the desired parameters to construct the JSON body",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Copy_Incremantal_Fact_data",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "SendNotification",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"EmailTo": "amardeepkohli1988@gmail.com;princelittle123@gmail.com",
+						"Subject": {
+							"value": "An error has occured in the @{pipeline().Pipeline}-pipeline",
+							"type": "Expression"
+						},
+						"ErrorMessage": {
+							"value": "The ADF pipeline has crashed! Please check the logs. @{activity('Copy_Incremantal_Fact_data').Error.Message}",
 							"type": "Expression"
 						}
 					}
