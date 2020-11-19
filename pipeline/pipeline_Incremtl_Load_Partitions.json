@@ -269,7 +269,7 @@
 							"type": "Expression"
 						},
 						"Activity": {
-							"value": "@activity('Copy_Incremantal_Fact_data').output.Value",
+							"value": "@activity('Copy_Incremantal_Fact_data').output.errors",
 							"type": "Expression"
 						}
 					}
