@@ -32,17 +32,17 @@
 				}
 			}
 		],
-		"variables": {
+		"parameters": {
 			"EmailTo": {
-				"type": "String",
+				"type": "string",
 				"defaultValue": "DefaultEmail"
 			},
 			"Subject": {
-				"type": "String",
+				"type": "string",
 				"defaultValue": "DefaultSubject"
 			},
 			"ErrorMessage": {
-				"type": "String",
+				"type": "string",
 				"defaultValue": "DefaultErrorMessage"
 			}
 		},
