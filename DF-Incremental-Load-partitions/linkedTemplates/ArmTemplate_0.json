@@ -96,6 +96,60 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SendNotification')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Web_Send_email_failure",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Email",
+								"value": "amardeepkohli1988@gmail.com;princelittle123@gmail.com"
+							}
+						],
+						"typeProperties": {
+							"url": "https://prod-19.northeurope.logic.azure.com:443/workflows/3726dcbf645d450583a9a9bda4a587a7/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CiGYBPTcJ11s9AbOSNAC-CnzS5CVeCqpFSYm40L3BYM",
+							"method": "POST",
+							"headers": {
+								"Content-Type": "application/json"
+							},
+							"body": {
+								"value": "{\n   \"DataFactoryName\": \"@{pipeline().DataFactory}\",\n   \"PipelineName\": \"@{pipeline().Pipeline}\",\n   \"Subject\": \"@{pipeline().parameters.Subject}\",\n   \"ErrorMessage\": \"The ADF pipeline has crashed! Please check the logs. @{pipeline().parameters.ErrorMessage}\",\n   \"EmailTo\": \"@{pipeline().parameters.EmailTo}\"\n}\n\n",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"parameters": {
+					"EmailTo": {
+						"type": "string",
+						"defaultValue": "DefaultEmail"
+					},
+					"Subject": {
+						"type": "string",
+						"defaultValue": "DefaultSubject"
+					},
+					"ErrorMessage": {
+						"type": "string",
+						"defaultValue": "DefaultErrorMessage"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedTextDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -254,7 +308,7 @@
 							"source": {
 								"type": "SqlServerSource",
 								"sqlReaderQuery": {
-									"value": "select * from [dbo].[FactInternetSales] where OrderDate >='@{activity('Lookup_Fetch_Last_InsertedDate').output.firstRow.WatermarkValue}'",
+									"value": "select * from [dbo].[FactInternetSales] where OrderDatess >='@{activity('Lookup_Fetch_Last_InsertedDate').output.firstRow.WatermarkValue}'",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -378,42 +432,6 @@
 						}
 					},
 					{
-						"name": "Web_Send_email_failure",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "Lookup_Fetch_Last_InsertedDate",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Email",
-								"value": "amardeepkohli1988@gmail.com;princelittle123@gmail.com"
-							}
-						],
-						"typeProperties": {
-							"url": "https://prod-19.northeurope.logic.azure.com:443/workflows/3726dcbf645d450583a9a9bda4a587a7/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CiGYBPTcJ11s9AbOSNAC-CnzS5CVeCqpFSYm40L3BYM",
-							"method": "POST",
-							"headers": {
-								"Content-Type": "application/json"
-							},
-							"body": {
-								"value": "{\n   \"DataFactoryName\": \"@{pipeline().DataFactory}\",\n   \"PipelineName\": \"@{pipeline().Pipeline}\",\n   \"Subject\": \"“An error has occured in the @{pipeline().Pipeline}-pipeline”\",\n   \"ErrorMessage\": \"The ADF pipeline has crashed! Please check the logs. @activity('Lookup_Fetch_Last_InsertedDate').Error.Message\",\n   \"EmailTo\": \"amardeepkohli1988@gmail.com;princelittle123@gmail.com\"\n}\n\n",
-								"type": "Expression"
-							}
-						}
-					},
-					{
 						"name": "Web_Send_Success_Email",
 						"type": "WebActivity",
 						"dependsOn": [
@@ -443,6 +461,70 @@
 								"type": "Expression"
 							}
 						}
+					},
+					{
+						"name": "Execute_Pipeline_Notification",
+						"description": "we'll call this pipeline from the main pipeline every time we want to send a notification and we pass along the desired parameters to construct the JSON body",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Lookup_Fetch_Last_InsertedDate",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "SendNotification",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"EmailTo": "amardeepkohli1988@gmail.com;princelittle123@gmail.com",
+								"Subject": {
+									"value": "An error has occured in the @{pipeline().Pipeline}-pipeline",
+									"type": "Expression"
+								},
+								"ErrorMessage": {
+									"value": "The ADF pipeline has crashed! Please check the logs. @{activity('Lookup_Fetch_Last_InsertedDate').Error.Message}",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "Execute_Pipeline_CopyData_Error",
+						"description": "we'll call this pipeline from the main pipeline every time we want to send a notification and we pass along the desired parameters to construct the JSON body",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy_Incremantal_Fact_data",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "SendNotification",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"EmailTo": "amardeepkohli1988@gmail.com;princelittle123@gmail.com",
+								"Subject": {
+									"value": "An error has occured in the @{pipeline().Pipeline}-pipeline",
+									"type": "Expression"
+								},
+								"ErrorMessage": {
+									"value": "The ADF pipeline has crashed! Please check the logs. @{activity('Copy_Incremantal_Fact_data').Error.Message}",
+									"type": "Expression"
+								}
+							}
+						}
 					}
 				],
 				"annotations": []
@@ -451,7 +533,8 @@
 				"[concat(variables('factoryId'), '/datasets/SqlServerDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SqlServerDataset_Table')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedTextDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SqlServerLinkedService')]"
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerLinkedService')]",
+				"[concat(variables('factoryId'), '/pipelines/SendNotification')]"
 			]
 		},
 		{
