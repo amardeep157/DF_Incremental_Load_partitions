@@ -231,6 +231,10 @@
 						"ErrorMessage": {
 							"value": "The ADF pipeline has crashed! Please check the logs. @{activity('Lookup_Fetch_Last_InsertedDate').Error.Message}",
 							"type": "Expression"
+						},
+						"Activity": {
+							"value": "@activity('Lookup_Fetch_Last_InsertedDate').output.Value",
+							"type": "Expression"
 						}
 					}
 				}
