@@ -51,7 +51,7 @@
 					"source": {
 						"type": "SqlServerSource",
 						"sqlReaderQuery": {
-							"value": "select * from [dbo].[FactFinance] where Date >='@{activity('Lookup_Fetch_Last_InsertedDate').output.firstRow.WatermarkValue}'",
+							"value": "select * from [dbo].[FactInternetSales] where OrderDate >='@{activity('Lookup_Fetch_Last_InsertedDate').output.firstRow.WatermarkValue}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -119,7 +119,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "select MAX(Date) as NewWatermarkvalue from [dbo].[FactSurveyResponse]",
+						"sqlReaderQuery": "select MAX(OrderDate) as NewWatermarkvalue from [dbo].[FactInternetSales]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
