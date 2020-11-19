@@ -207,6 +207,37 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "Web_Send_Success_Email",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "StoredProc_UpdateFlag_Watermark",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-19.northeurope.logic.azure.com:443/workflows/3726dcbf645d450583a9a9bda4a587a7/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CiGYBPTcJ11s9AbOSNAC-CnzS5CVeCqpFSYm40L3BYM",
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"body": {
+						"value": "{\n   \"DataFactoryName\": \"@{pipeline().DataFactory}\",\n   \"PipelineName\": \"@{pipeline().Pipeline}\",\n   \"Subject\": \"SUCCESS in the @{pipeline().Pipeline}-pipeline\",\n   \"ErrorMessage\": \"Everything is okey-dokey!\",\n   \"EmailTo\": \"amardeepkohli1988@gmail.com;princelittle123@gmail.com\"\n}",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"annotations": []
