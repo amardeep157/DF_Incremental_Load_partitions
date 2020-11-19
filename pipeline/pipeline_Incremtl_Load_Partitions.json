@@ -119,7 +119,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "select MAX(OrderDate) as NewWatermarkvalue from [dbo].[FactSurveyResponse]",
+						"sqlReaderQuery": "select MAX(Date) as NewWatermarkvalue from [dbo].[FactSurveyResponse]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
