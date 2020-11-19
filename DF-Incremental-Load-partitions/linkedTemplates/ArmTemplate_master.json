@@ -7,6 +7,18 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-Incremental-Load-partitions"
 		},
+		"AzureDataLakeStorage2_LinkedService_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage2_LinkedService'"
+		},
+		"SqlServerLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServerLinkedService'"
+		},
+		"AzureDataLakeStorage2_LinkedService_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adls2amardeepstorage.dfs.core.windows.net"
+		},
 		"AzureKeyVaultLinkedService_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://amar-keyvault.vault.azure.net/"
@@ -45,6 +57,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStorage2_LinkedService_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage2_LinkedService_accountKey')]"
+					},
+					"SqlServerLinkedService_connectionString": {
+						"value": "[parameters('SqlServerLinkedService_connectionString')]"
+					},
+					"AzureDataLakeStorage2_LinkedService_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage2_LinkedService_properties_typeProperties_url')]"
 					},
 					"AzureKeyVaultLinkedService_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVaultLinkedService_properties_typeProperties_baseUrl')]"

@@ -5,6 +5,15 @@
 		"factoryName": {
 			"value": "DF-Incremental-Load-partitions"
 		},
+		"AzureDataLakeStorage2_LinkedService_accountKey": {
+			"value": ""
+		},
+		"SqlServerLinkedService_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage2_LinkedService_properties_typeProperties_url": {
+			"value": "https://adls2amardeepstorage.dfs.core.windows.net"
+		},
 		"AzureKeyVaultLinkedService_properties_typeProperties_baseUrl": {
 			"value": "https://amar-keyvault.vault.azure.net/"
 		},

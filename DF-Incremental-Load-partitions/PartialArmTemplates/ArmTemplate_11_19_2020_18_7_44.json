@@ -6,30 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-Incremental-Load-partitions"
-		},
-		"AzureDataLakeStorage2_LinkedService_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage2_LinkedService'"
-		},
-		"SqlServerLinkedService_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServerLinkedService'"
-		},
-		"AzureDataLakeStorage2_LinkedService_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://adls2amardeepstorage.dfs.core.windows.net"
-		},
-		"AzureKeyVaultLinkedService_properties_typeProperties_baseUrl": {
-			"type": "string",
-			"defaultValue": "https://amar-keyvault.vault.azure.net/"
-		},
-		"AzureKeyVault_LinkedService_properties_typeProperties_baseUrl": {
-			"type": "string",
-			"defaultValue": "https://amar-keyvault.vault.azure.net/"
-		},
-		"integrationRuntime-ReUse_properties_typeProperties_linkedInfo_resourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/4f2eb37e-c352-4f99-a45c-7c915721c84f/resourcegroups/rg_BigData/providers/Microsoft.DataFactory/factories/DF-OnPremise-BLOB-Incremental/integrationruntimes/integrationRuntime-selftHosted-OnPremises"
 		}
 	},
 	"variables": {
@@ -63,8 +39,7 @@
 							},
 							"dataset": {
 								"referenceName": "SqlServerDataset",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"firstRowOnly": true
 						}
@@ -122,8 +97,7 @@
 						"inputs": [
 							{
 								"referenceName": "SqlServerDataset_Table",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
@@ -167,8 +141,7 @@
 							},
 							"dataset": {
 								"referenceName": "SqlServerDataset",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						}
 					},
@@ -288,8 +261,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SqlServerDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SqlServerDataset_Table')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedTextDataset')]",
-				"[concat(variables('factoryId'), '/linkedServices/SqlServerLinkedService')]"
+				"[concat(variables('factoryId'), '/datasets/DelimitedTextDataset')]"
 			]
 		},
 		{
@@ -342,12 +314,9 @@
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {}
+				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServerLinkedService')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SqlServerDataset_Table')]",
@@ -360,12 +329,9 @@
 				},
 				"annotations": [],
 				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {}
+				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServerLinkedService')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage2_LinkedService')]",
@@ -375,68 +341,14 @@
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('AzureDataLakeStorage2_LinkedService_properties_typeProperties_url')]",
+					"url": "https://adls2amardeepstorage.dfs.core.windows.net",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStorage2_LinkedService_accountKey')]"
+						"value": "**********"
 					}
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureKeyVaultLinkedService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureKeyVault",
-				"typeProperties": {
-					"baseUrl": "[parameters('AzureKeyVaultLinkedService_properties_typeProperties_baseUrl')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureKeyVault_LinkedService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureKeyVault",
-				"typeProperties": {
-					"baseUrl": "[parameters('AzureKeyVault_LinkedService_properties_typeProperties_baseUrl')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServerLinkedService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SqlServerLinkedService_connectionString')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AzureKeyVaultLinkedService",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "password-amardeeppc-mssql-2016"
-					}
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntime-ReUse",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime-ReUse')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVaultLinkedService')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/trigger_Incremental_Load')]",
@@ -450,8 +362,7 @@
 						"pipelineReference": {
 							"referenceName": "pipeline_Incremtl_Load_Partitions",
 							"type": "PipelineReference"
-						},
-						"parameters": {}
+						}
 					}
 				],
 				"type": "ScheduleTrigger",
@@ -467,22 +378,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pipeline_Incremtl_Load_Partitions')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/integrationRuntime-ReUse')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"description": "This is re-used from Data Factory called 'DF-OnPremise-BLOB-Incremental'",
-				"typeProperties": {
-					"linkedInfo": {
-						"resourceId": "[parameters('integrationRuntime-ReUse_properties_typeProperties_linkedInfo_resourceId')]",
-						"authorizationType": "Rbac"
-					}
-				}
-			},
-			"dependsOn": []
 		}
 	]
 }
