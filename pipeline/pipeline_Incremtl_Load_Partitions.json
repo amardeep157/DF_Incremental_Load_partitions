@@ -233,7 +233,7 @@
 							"type": "Expression"
 						},
 						"Activity": {
-							"value": "@activity('Lookup_Fetch_Last_InsertedDate').output.Value",
+							"value": "Lookup_Fetch_Last_InsertedDate",
 							"type": "Expression"
 						}
 					}
