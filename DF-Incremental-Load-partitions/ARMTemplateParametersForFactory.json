@@ -5,9 +5,6 @@
 		"factoryName": {
 			"value": "DF-Incremental-Load-partitions"
 		},
-		"AzureDataLakeStorage2_LinkedService_accountKey": {
-			"value": ""
-		},
 		"SqlServerLinkedService_connectionString": {
 			"value": ""
 		},
