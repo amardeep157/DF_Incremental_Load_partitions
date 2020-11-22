@@ -266,6 +266,7 @@
 				"activities": [
 					{
 						"name": "Lookup_Fetch_Last_InsertedDate",
+						"description": "Lookup to fetch the last fetched Date of the table.",
 						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
@@ -293,6 +294,7 @@
 					},
 					{
 						"name": "Copy_Incremantal_Fact_data",
+						"description": "copy data from on-premise DB to ADLS V2",
 						"type": "Copy",
 						"dependsOn": [
 							{
