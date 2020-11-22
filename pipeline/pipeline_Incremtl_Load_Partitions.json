@@ -31,6 +31,7 @@
 			},
 			{
 				"name": "Copy_Incremantal_Fact_data",
+				"description": "copy data from on-premise DB to ADLS V2",
 				"type": "Copy",
 				"dependsOn": [
 					{
