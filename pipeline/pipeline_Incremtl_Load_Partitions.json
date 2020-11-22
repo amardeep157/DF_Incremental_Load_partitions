@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "Lookup_Fetch_Last_InsertedDate",
+				"description": "Lookup to fetch the last fetched Date of the table.",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
